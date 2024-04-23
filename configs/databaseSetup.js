@@ -15,8 +15,8 @@ db.CollectionItem = sequelize.define("CollectionItem", CollectionItemSchema);
 db.Collection.hasMany(db.CollectionItem);
 db.CollectionItem.belongsTo(db.Collection);
 
-db.User.sync({ force: false });
-db.CollectionItem.sync({ force: false });
-db.CollectionItem.sync({ force: false });
+db.User.sync();
+db.CollectionItem.sync();
+db.CollectionItem.sync();
 
 module.exports = db;
