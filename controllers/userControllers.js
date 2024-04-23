@@ -2,10 +2,9 @@
 
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { db } = require("../configs/databaseConnect");
 require("dotenv").config();
 
-const User = require("../dataModels/userModel")(db);
+const { User } = require("../configs/databaseSetup");
 
 // User Registration
 const register = async (req, res) => {

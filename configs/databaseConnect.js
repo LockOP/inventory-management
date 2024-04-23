@@ -1,7 +1,7 @@
 const { Sequelize } = require("sequelize");
 require("dotenv").config();
 
-const db = new Sequelize(process.env.POSTGRES_SQL_URL, {
+const sequelize = new Sequelize(process.env.POSTGRES_SQL_URL, {
   dialectOptions: {
     ssl: {
       require: true,
@@ -12,7 +12,7 @@ const db = new Sequelize(process.env.POSTGRES_SQL_URL, {
 
 async function testConnection() {
   try {
-    await db.authenticate();
+    await sequelize.authenticate();
     console.log(
       "Connection to the database has been established successfully."
     );
@@ -23,7 +23,4 @@ async function testConnection() {
 
 testConnection();
 
-
-module.exports = {
-  db,
-};
+module.exports = sequelize;

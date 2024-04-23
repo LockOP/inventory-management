@@ -1,9 +1,8 @@
 // middleware/authenticate.js
 
 const jwt = require("jsonwebtoken");
-const { db } = require("../configs/databaseConnect");
 require("dotenv").config();
-const User = require("../dataModels/userModel")(db);
+const { User } = require("../configs/databaseSetup");
 
 const authenticateUser = async (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1];
