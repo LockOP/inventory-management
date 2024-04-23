@@ -12,7 +12,7 @@ const inventoryRouter = express.Router();
 
 const prefix = "/collections";
 
-inventoryRouter.post(prefix, createCollectionItem); // creqte collection
+inventoryRouter.post(prefix, createCollection); // creqte collection
 
 inventoryRouter.post("/collectionItems", createCollectionItem); // creqte collection item
 
