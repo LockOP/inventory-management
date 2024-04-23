@@ -12,11 +12,11 @@ db.User = sequelize.define("User", UserSchema);
 db.Collection = sequelize.define("Collection", CollectionSchema);
 db.CollectionItem = sequelize.define("CollectionItem", CollectionItemSchema);
 
-db.Collection.hasMany(db.CollectionItem);
-db.CollectionItem.belongsTo(db.Collection);
-
 db.User.sync();
 db.CollectionItem.sync();
 db.CollectionItem.sync();
+
+db.Collection.hasMany(db.CollectionItem);
+db.CollectionItem.belongsTo(db.Collection);
 
 module.exports = db;
