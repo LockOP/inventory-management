@@ -32,6 +32,7 @@ const createCollectionItem = async (req, res) => {
     const collectionItem = await CollectionItem.create({
       name,
       description,
+      CollectionId: null,
     });
     res.status(201).json(collectionItem);
   } catch (error) {
@@ -55,7 +56,9 @@ const addItemToCollection = async (req, res) => {
     res.status(201).json({ message: "Item added to collection successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", details: error.name });
   }
 };
 
