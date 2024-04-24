@@ -23,7 +23,7 @@ app.get("/check", authenticateUser, (req, res) => {
 //////////// -----
 
 app.use("/api/users", userRouter);
-app.use("/api", authenticateUser, inventoryRouter);
+app.use("/api/collections", authenticateUser, inventoryRouter);
 
 const port = 5000;
 app.listen(port, () => {

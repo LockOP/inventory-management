@@ -8,20 +8,17 @@ const {
   deleteCollection,
   createCollectionItem,
 } = require("../controllers/inventoryControllers");
+
 const inventoryRouter = express.Router();
 
-const prefix = "/collections";
+inventoryRouter.post("/", createCollection); // crete collection
+inventoryRouter.post("/collectionItems", createCollectionItem); // create collection item
+inventoryRouter.post("/:collectionId/items/:itemId", addItemToCollection); // add item to collection
 
-inventoryRouter.post(prefix, createCollection); // creqte collection
+inventoryRouter.get("/", listUserCollections); // get all collections for user
+inventoryRouter.get("/:collectionId/items", listItemsInCollection); // get all items for collections
 
-inventoryRouter.post("/collectionItems", createCollectionItem); // creqte collection item
-
-inventoryRouter.post(prefix + "/:id/items", addItemToCollection); // add item to collection
-
-inventoryRouter.delete(prefix + "/:collectionId/items/:itemId", removeItemFromCollection); // remove item from collection
-
-inventoryRouter.get("/users/:userId/collections", listUserCollections);
-inventoryRouter.get(prefix + "/:id/items", listItemsInCollection);
-inventoryRouter.delete(prefix + "/:id", deleteCollection);
+inventoryRouter.delete( "/:collectionId/items/:itemId", removeItemFromCollection); // remove item from collection
+inventoryRouter.delete("/:collectionId", deleteCollection); // 
 
 module.exports = { inventoryRouter };

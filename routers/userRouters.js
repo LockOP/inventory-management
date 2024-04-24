@@ -4,6 +4,7 @@ const {
   logIn,
   deleteUser,
 } = require("../controllers/userControllers");
+
 const userRouter = express.Router();
 
 userRouter.post("/register", register);

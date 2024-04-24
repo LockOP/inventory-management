@@ -1,7 +1,6 @@
 require("dotenv").config();
 const { Collection, CollectionItem } = require("../configs/databaseSetup");
 
-// Create a New Collection
 const createCollection = async (req, res) => {
   try {
     const {
@@ -43,12 +42,17 @@ const createCollectionItem = async (req, res) => {
 
 const addItemToCollection = async (req, res) => {
   try {
-    const collectionId = req.params.id;
-    const { itemId } = req.body;
+    const collectionId = req.params.collectionId;
+    const itemId = req.params.itemId;
+
+    const collection = await Collection.findByPk(collectionId);
+    if (!collection) {
+      return res.status(404).json({ error: "Collection not found" });
+    }
 
     const collectionItem = await CollectionItem.findByPk(itemId);
     if (!collectionItem) {
-      return res.status(404).json({ error: "Collection item not found" });
+      return res.status(404).json({ error: "Item not found" });
     }
 
     await collectionItem.update({ CollectionId: collectionId });
@@ -66,7 +70,16 @@ const removeItemFromCollection = async (req, res) => {
   try {
     const { collectionId, itemId } = req.params;
 
-    // Check if the collection item belongs to the specified collection
+    const collection = await Collection.findByPk(collectionId);
+    if (!collection) {
+      return res.status(404).json({ error: "Collection not found" });
+    }
+
+    const item = await CollectionItem.findByPk(itemId);
+    if (!item) {
+      return res.status(404).json({ error: "Item not found" });
+    }
+
     const collectionItem = await CollectionItem.findOne({
       where: { CollectionId: collectionId, id: itemId },
     });
@@ -76,7 +89,6 @@ const removeItemFromCollection = async (req, res) => {
       });
     }
 
-    // If the collection item belongs to the collection, delete it
     await CollectionItem.destroy({
       where: { CollectionId: collectionId, id: itemId },
     });
@@ -90,7 +102,7 @@ const removeItemFromCollection = async (req, res) => {
 
 const listUserCollections = async (req, res) => {
   try {
-    const userId = req.params.userId;
+    const userId = req.userId;
     const collections = await Collection.findAll({
       where: { UserId: userId },
       include: CollectionItem,
@@ -104,7 +116,13 @@ const listUserCollections = async (req, res) => {
 
 const listItemsInCollection = async (req, res) => {
   try {
-    const collectionId = req.params.id;
+    const collectionId = req.params.collectionId;
+
+    const collection = await Collection.findByPk(collectionId);
+    if (!collection) {
+      return res.status(404).json({ error: "Collection not found" });
+    }
+
     const collectionItems = await CollectionItem.findAll({
       where: { CollectionId: collectionId },
     });
@@ -117,9 +135,17 @@ const listItemsInCollection = async (req, res) => {
 
 const deleteCollection = async (req, res) => {
   try {
-    const collectionId = req.params.id;
+    const collectionId = req.params.collectionId;
 
-    await Collection.destroy({ where: { id: collectionId } });
+    const collection = await Collection.findByPk(collectionId);
+    if (!collection) {
+      return res.status(404).json({ error: "Collection not found" });
+    }
+
+    await CollectionItem.destroy({ where: { CollectionId: collectionId } });
+
+    await collection.destroy();
+
     res.status(204).end();
   } catch (error) {
     console.error(error);

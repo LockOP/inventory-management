@@ -6,7 +6,6 @@ require("dotenv").config();
 
 const { User } = require("../configs/databaseSetup");
 
-// User Registration
 const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -34,7 +33,6 @@ const register = async (req, res) => {
   }
 };
 
-// User Login
 const logIn = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -56,7 +54,7 @@ const logIn = async (req, res) => {
   }
 };
 
-// Delete User // DEV PURPOSE ONLY
+// DEV PURPOSE ONLY
 const deleteUser = async (req, res) => {
   try {
     const { userId } = req.params;
